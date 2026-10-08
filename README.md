@@ -2,7 +2,7 @@
 
 # Pikatang Pixel Art Generator
 
-**Author: [Yuzhuo Zhang (@JadeYui07)](https://github.com/JadeYui07)**
+**Author: [JadeYui07](https://github.com/JadeYui07)**
 
 ## English
 
@@ -15,6 +15,12 @@ A Codex skill for planning, generating, revising, and organizing cozy Pikatang-i
 - Keep recurring characters and related asset sets visually consistent with references and shared style guidance.
 - Organize and hand off requested outputs with descriptive filenames; resize or compress only when requested.
 - Generate through the image-generation tools available in the current environment, or use the bundled Gemini API script. [SpriteCook](https://www.spritecook.ai/) is an optional backend when its MCP tools or API are separately configured; this skill does not install or connect SpriteCook. See [SpriteCook compatibility](references/spritecook.md), the [API docs](https://www.spritecook.ai/api-docs), and the [agent setup guide](https://www.spritecook.ai/agents).
+
+### Optional pixel cleanup and Aseprite
+
+Use the [Perfect Pixel adapter](references/pixel-cleanup.md) for local grid detection and resampling after generation. It is an optional, separately installed dependency; no upstream code or credentials are bundled. The adapter preserves the source and rejects transparent images rather than dropping alpha. Actual output dimensions can differ from a suggested grid.
+
+Then follow the [Aseprite handoff](references/aseprite.md): open the PNG, save an editable `.aseprite`, refine pixels and manually build layers or animation frames. Aseprite must be installed separately. A generated PNG does not contain editable component layers or a ready-made animation. See [third-party notices](THIRD_PARTY_NOTICES.md).
 
 ### Character style
 
@@ -83,6 +89,12 @@ Pass `--reference` more than once to include multiple local reference images. Th
 - 按需整理文件名和交付素材；只有用户提出时才调整尺寸或压缩。
 - 使用当前环境可用的图像生成工具，或运行内置 Gemini API 脚本。[SpriteCook](https://www.spritecook.ai/) 是可选后端，需要另行配置 MCP 工具或 API；此 skill 不会自动安装或连接 SpriteCook。详见 [SpriteCook 兼容说明](references/spritecook.md)、[API 文档](https://www.spritecook.ai/api-docs)和 [Agent 配置指南](https://www.spritecook.ai/agents)。
 
+### 可选像素整理与 Aseprite
+
+生成后可使用 [Perfect Pixel 调用脚本](references/pixel-cleanup.md)在本地检测网格、重新采样。依赖需要单独安装；本包不附带上游源码或账号密钥。脚本保留原图，并拒绝处理带透明度的图片以免丢失透明通道；实际尺寸可能与建议网格略有差异。
+
+接着按 [Aseprite 配合流程](references/aseprite.md)打开 PNG、另存为 `.aseprite`，逐像素调整，并手动制作图层或动画帧。Aseprite 需要单独安装；生成的 PNG 不会自动带有部件图层或现成动画。详见[第三方声明](THIRD_PARTY_NOTICES.md)。
+
 ### 人物风格
 
 人物图采用清晰的低分辨率游戏角色风格：明显的方块像素簇、阶梯轮廓、紧凑的 Q 版比例、富有表现力的面部，以及柔和的粉彩配色。角色设定图可以采用左侧精细全身主立绘、右侧正面/侧面/背面视图的布局。参考截图中的文字、水印和游戏 UI 默认不带入生成结果。
@@ -140,7 +152,7 @@ python3 scripts/generate_image.py \
 
 ## Attribution / 署名
 
-Created by **[Yuzhuo Zhang (@JadeYui07)](https://github.com/JadeYui07)**.
+Created by **[JadeYui07](https://github.com/JadeYui07)**.
 
 ## License / 许可证
 

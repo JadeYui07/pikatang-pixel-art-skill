@@ -5,13 +5,15 @@ description: Create Pikatang-inspired pixel-art assets from text or image refere
 
 # Pikatang Pixel Asset Workshop
 
-**Author: Yuzhuo Zhang**
+**Author: JadeYui07**
 
 Help the user plan, generate, revise, and organize cozy Pikatang-inspired pixel art. Use a visible chunky pixel grid, stepped silhouettes, compact chibi proportions where appropriate, and warm candy pastels. Choose only the workflow relevant to the request; this is an image-generation skill, not an Aseprite editor or animation system.
 
 ## Choose a workflow
 
 Read [references/workbench.md](references/workbench.md) when the request involves choosing an asset type, making a coordinated set, a character sheet, variations, or packaging outputs. If the user wants SpriteCook, read [references/spritecook.md](references/spritecook.md).
+
+For requested native-grid cleanup, read [references/pixel-cleanup.md](references/pixel-cleanup.md). For Aseprite editing or export, read [references/aseprite.md](references/aseprite.md). These are optional local steps; do not run post-processing merely because an image looks pixelated. Perfect Pixel is separately installed, and transparent inputs are not supported by the included adapter.
 
 - **Character:** single full-body avatar, character sheet, turnaround, or requested poses.
 - **Pet:** single pet sprite or a requested set of views/expressions.
