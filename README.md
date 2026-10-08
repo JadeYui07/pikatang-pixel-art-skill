@@ -2,11 +2,19 @@
 
 # Pikatang Pixel Art Generator
 
-**Author: Yuzhuo Zhang**
+**Author: [Yuzhuo Zhang (@JadeYui07)](https://github.com/JadeYui07)**
 
 ## English
 
-A Codex skill for creating cozy, colorful Pikatang-inspired pixel art from a written brief or image references. It supports chibi character sprites and turnarounds, pets, isometric rooms and furniture, and small item icons.
+A Codex skill for planning, generating, revising, and organizing cozy Pikatang-inspired pixel art from written briefs or image references. It supports chibi characters and turnarounds, pets, house exteriors, interiors, furniture, and icons.
+
+### Pixel Asset Workbench
+
+- Choose a workflow for characters, pets, houses, interiors, furniture, icons, or coordinated asset packs.
+- Create full-body character sheets, turnarounds, pose sets, and meaningful visual variations.
+- Keep recurring characters and related asset sets visually consistent with references and shared style guidance.
+- Organize and hand off requested outputs with descriptive filenames; resize or compress only when requested.
+- Generate through the image-generation tools available in the current environment, or use the bundled Gemini API script. [SpriteCook](https://www.spritecook.ai/) is an optional backend when its MCP tools or API are separately configured; this skill does not install or connect SpriteCook. See [SpriteCook compatibility](references/spritecook.md), the [API docs](https://www.spritecook.ai/api-docs), and the [agent setup guide](https://www.spritecook.ai/agents).
 
 ### Character style
 
@@ -60,13 +68,20 @@ Pass `--reference` more than once to include multiple local reference images. Th
 ### Typical workflow
 
 1. Describe the subject or provide an image reference.
-2. Choose how closely a set should match in style.
-3. Review and confirm the prompts.
-4. Generate images and refine any that need another pass.
+2. The skill infers the asset type, framing, and style consistency from the request; it asks only when a missing choice would materially change the output.
+3. Generate images, then request focused revisions or organize the finished assets.
 
 ## 简体中文
 
 这是一个 Codex skill，可根据文字描述或图片参考生成温暖、可爱的皮卡堂风格像素图。支持 Q 版人物立绘和多角度设定图、宠物、等距房间与家具，以及小物件图标。
+
+### 像素素材工作台
+
+- 按角色、宠物、房屋、室内、家具、图标或成套素材选择生成流程。
+- 制作全身角色设定图、多角度图、动作组和有明确差异的视觉变体。
+- 使用参考图和统一风格指导，保持同一角色及相关素材的视觉一致性。
+- 按需整理文件名和交付素材；只有用户提出时才调整尺寸或压缩。
+- 使用当前环境可用的图像生成工具，或运行内置 Gemini API 脚本。[SpriteCook](https://www.spritecook.ai/) 是可选后端，需要另行配置 MCP 工具或 API；此 skill 不会自动安装或连接 SpriteCook。详见 [SpriteCook 兼容说明](references/spritecook.md)、[API 文档](https://www.spritecook.ai/api-docs)和 [Agent 配置指南](https://www.spritecook.ai/agents)。
 
 ### 人物风格
 
@@ -120,16 +135,15 @@ python3 scripts/generate_image.py \
 ### 常见流程
 
 1. 描述主题，或提供图片参考。
-2. 选择一组图片需要保持多大程度的风格一致。
-3. 检查并确认生成提示词。
-4. 生成图片，并继续调整需要重做的结果。
+2. skill 根据请求推断素材类型、构图和风格一致性；只有缺少的信息会实质影响结果时才追问。
+3. 生成图片，再按需提出针对性修改或整理素材。
 
 ## Attribution / 署名
 
-Created by **Yuzhuo Zhang**.
+Created by **[Yuzhuo Zhang (@JadeYui07)](https://github.com/JadeYui07)**.
 
 ## License / 许可证
 
-No license has been selected yet. Add a license before redistributing or accepting contributions.
+MIT. See [LICENSE](LICENSE).
 
-尚未选择开源许可证。公开分发或接受贡献前，请先添加合适的许可证。
+MIT 许可证，详见 [LICENSE](LICENSE)。

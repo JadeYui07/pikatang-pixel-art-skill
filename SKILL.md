@@ -1,97 +1,63 @@
 ---
 name: pikatang-pixel-art
-description: Batch-generate Pikatang (皮卡堂) style pixel art for game assets and fan art collections — chibi characters and pets, isometric cut-away rooms and furniture, and small item icons (food, props). Uses the Gemini image API with a locked pixel-art style guide. Triggers on "皮卡堂风格", "皮卡堂像素图", "Pikatang pixel", "像素风角色/宠物/家具/房间/图标", "pixel fan art batch".
+description: Create Pikatang-inspired pixel-art assets from text or image references, including characters, character sheets, pets, houses, interiors, furniture, and icons. Use for single images, coordinated asset sets, and visual variations.
 ---
 
-# Pikatang Pixel Art Generator
+# Pikatang Pixel Asset Workshop
 
 **Author: Yuzhuo Zhang**
 
-Generates 5-10 images per batch in the Pikatang pixel-art style: soft candy pastels, clean dark-tinted outlines, no anti-aliasing, cozy and sweet. Three subject types share one style language: **characters & pets**, **isometric rooms & furniture**, **item icons**. Output is pure visuals with no text.
+Help the user plan, generate, revise, and organize cozy Pikatang-inspired pixel art. Use a visible chunky pixel grid, stepped silhouettes, compact chibi proportions where appropriate, and warm candy pastels. Choose only the workflow relevant to the request; this is an image-generation skill, not an Aseprite editor or animation system.
 
-## Workflow
+## Choose a workflow
 
-### Phase 1: Collect input (accept any of these)
+Read [references/workbench.md](references/workbench.md) when the request involves choosing an asset type, making a coordinated set, a character sheet, variations, or packaging outputs. If the user wants SpriteCook, read [references/spritecook.md](references/spritecook.md).
 
-| Mode | User provides | Skill does |
-|---|---|---|
-| Manual | One description per image | Expands each into a full prompt |
-| List | A list of subjects (e.g. 8 pets, 6 rooms) | Builds one prompt per line |
-| Reference + description | An image plus changes wanted | Passes the image with `--reference` and writes an adaptation prompt |
+- **Character:** single full-body avatar, character sheet, turnaround, or requested poses.
+- **Pet:** single pet sprite or a requested set of views/expressions.
+- **House:** exterior view or architectural cutaway, following the user's reference and camera angle.
+- **Interior:** isometric room, top-down plan, or cutaway. Infer from the reference; ask only if the camera choice materially changes the result.
+- **Furniture / icon:** one isolated prop or a coordinated set.
+- **Reference adaptation:** keep the subject details the user identifies, and change only the requested style or attributes. Treat embedded UI, captions, and watermarks as reference artifacts unless asked to include them.
+- **Asset pack:** plan consistent style, palette, naming, and ratios across multiple requested assets.
 
-For each item, detect the subject type (character/pet, room/furniture, icon) and pick the matching template in `references/style-guide.md`. If a request mixes types, split it into separate images.
-For character and pet requests, distinguish a single sprite from a character reference sheet. If the user asks for multiple views or supplies a sheet example, use the character-sheet template and match its layout. Keep the character style visibly chunky and pixel-built rather than softly illustrated.
+## Run the request
 
-### Phase 2: Ask the consistency level (every batch)
+1. Infer the asset type, composition, and ratio from the user's request and references. Use sensible defaults rather than asking for choices the user has already implied. Ask one concise question only when a missing choice would materially change the output.
+2. For a set, maintain identity and visual continuity where needed. Default unrelated assets to a shared style and palette; ask whether strict matching is required only when that distinction matters. Do not require prompt approval unless the user asks to review prompts first.
+3. Build prompts using the relevant template in [references/style-guide.md](references/style-guide.md). For characters, make pixels visibly coarse and block-built; retain readable clothing and silhouette details without smoothing into a digital painting.
+4. Generate or edit with the image-generation capability available in the current environment. If SpriteCook tools are connected and the user wants to use them, follow [references/spritecook.md](references/spritecook.md). When the user specifically wants the bundled Gemini API script, follow the command below. Never claim to have run an unavailable generator.
+5. Present results clearly and offer focused revisions. Do not silently change identity-defining details between views.
+6. For requested asset handoff, use consistent descriptive filenames and group files in a project folder. Resize, convert, or compress only when requested; preserve originals and confirm the resulting dimensions and file sizes when those operations are available.
 
-**Always ask this before writing prompts**, since the answer changes how strictly the style is anchored:
+## Gemini API script
 
-1. **Must match**: same pixel grid, outline color, palette and lighting across the set. Use the strict anchor block and reuse the first approved image as `--reference` for the rest.
-2. **Partly consistent**: same style prefix, subjects and palettes may differ. Use the standard anchor block.
-3. **Allow variation**: shared style prefix only, explore freely.
-
-### Phase 3: Write prompts and confirm
-
-1. Build each prompt from: style prefix + subject template + content description + anchor block (per consistency level) + exclusions.
-2. Show all prompts (5-10) in a table: number, subject type, ratio, one-line summary.
-3. **Wait for the user to confirm or edit** before generating anything.
-
-### Phase 4: Generate
-
-1. Create the folder `obsidian/09image/MMDD-topic/`.
-2. Run `scripts/generate_image.py` once per image (command below). With "must match", generate image 01 first, let the user approve it, then pass it as `--reference` to the rest.
-3. Name files `NN-subject.png`.
-4. List the results and ask whether any should be regenerated or tweaked.
-
-Images are not inserted into any document (game asset / fan art use).
-
-## Defaults
-
-| Setting | Value |
-|---|---|
-| Ratio | Auto by subject: character/pet 3:4, room/furniture 4:3, icon 1:1 (user can override) |
-| Resolution | 2K |
-| Text in image | None. Every prompt ends with the no-text exclusion |
-| Color | Auto-match subject, Pikatang candy pastels by default |
-| Model | `gemini-3-pro-image-preview` |
-
-## API configuration
-
-| Setting | Value |
-|---|---|
-| API URL | `https://generativelanguage.googleapis.com` |
-| API key | Read from the `GEMINI_API_KEY` environment variable (never hardcode it in this file) |
-| Model | `gemini-3-pro-image-preview` |
-
-If `GEMINI_API_KEY` is not set, ask the user to set it or pass `--api-key`.
-
-## Generate command
+The bundled script uses Python's standard library and requires a Gemini API key in `GEMINI_API_KEY` (or `--api-key`). Never write the key into repository files or generated prompts.
 
 ```bash
 python3 scripts/generate_image.py \
-  --prompt "<full prompt>" \
-  --output "obsidian/09image/MMDD-topic/01-subject.png" \
+  --prompt "<complete prompt>" \
+  --output "outputs/<project-name>/01-<asset-name>.png" \
   --aspect-ratio "3:4" \
   --resolution "2K" \
-  --reference "references/style-refs/character-sprite.jpg"   # optional, repeatable
+  --reference "references/style-refs/character-sprite.jpg"
 ```
 
-`--reference` accepts any local image (PNG/JPG/WebP). Bundled style anchors live in `references/style-refs/`:
+Repeat `--reference` for additional local images. Bundled anchors: `character-sprite.jpg` (avatars), `pet-egg-card.jpg` (pets), `iso-room-bathroom.jpg` (bright interiors), and `iso-room-cozy.jpg` (warm interiors). The script's default model is documented in its help and can be overridden with `--model`.
 
-| File | Use for |
-|---|---|
-| `character-sprite.jpg` | Chibi character / outfit sprite |
-| `pet-egg-card.jpg` | Pets and eggs |
-| `iso-room-bathroom.jpg` | Clean light isometric room |
-| `iso-room-cozy.jpg` | Dense, warm isometric room |
+## Defaults
 
-## Usage examples
+- Character and pet sprites: portrait 3:4, one clear subject, plain background.
+- Rooms and house scenes: 4:3 unless the reference or requested framing suggests otherwise.
+- Furniture and item icons: square 1:1, isolated on a plain background.
+- Resolution: 2K when supported; use the available generator's nearest option otherwise.
+- No text, watermarks, signatures, or game UI unless requested.
+- For a character turnaround, use a large detailed full-body hero on the left and smaller front/side/back views on the right when that matches the request or reference.
 
-| User says | Action |
-|---|---|
-| "皮卡堂风格画 6 只森林宠物" | List mode, pet template, ask consistency, show 6 prompts |
-| "做一个粉色兔子主题的房间" | Room template, 4:3 |
-| "把这张图改成皮卡堂像素风" + image | Reference mode, adapt to style guide |
-| "8 个食物图标: 火锅, 蛋糕, ..." | List mode, icon template, 1:1 |
+## Example requests
 
-See `references/style-guide.md` for the full style prefix, subject templates, anchor blocks and exclusions.
+- “做一张角色全身设定图，左侧主立绘，右边正面、侧面和背面。”
+- “把这只宠物做成皮卡堂粗像素风，再给两种表情。”
+- “按这张房子参考图，分别做外观和内部装饰。”
+- “把这 6 个家具图标统一成一套，做成 1:1 白底素材。”
+- “把这组 PNG 整理成有序命名的 ZIP，并压到 1 MB 以内。”

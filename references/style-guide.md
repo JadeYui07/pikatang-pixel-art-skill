@@ -9,7 +9,7 @@ STYLE INSTRUCTIONS:
 - Ratio: character/pet 3:4, room/furniture 4:3, icon 1:1
 - Resolution: 2K
 - Text: none (no letters, numbers, labels, watermarks, UI frames)
-- Consistency: asked before every batch (see anchor blocks)
+- Consistency: infer from the request; use an anchor block for related assets when needed
 ```
 
 ## Style prefix (use at the start of every prompt)
@@ -49,7 +49,13 @@ Use this when the user asks for a character sheet, turnaround, multiple angles, 
 
 If the user asks for several poses instead of a strict turnaround, replace the side and back views with the requested actions. Do not add status bars, currency icons, dialogue bubbles, screenshots, watermarks, or text even when these appear in style references.
 
-### B. Isometric rooms & furniture (ratio 4:3)
+### B. House exterior (ratio 4:3)
+
+```
+[STYLE PREFIX] A Pikatang-style pixel-art illustration of [HOUSE DESCRIPTION], shown from [REQUESTED CAMERA ANGLE]. Preserve the distinctive roof shape, facade, windows, doors, materials, and surrounding plants or yard from the reference. Use a clear readable silhouette, chunky pixel clusters, stepped edges, and a cohesive warm pastel palette. Keep the full structure visible against [BACKGROUND].
+```
+
+### C. Isometric rooms & furniture (ratio 4:3)
 
 ```
 [STYLE PREFIX] An isometric cut-away pixel-art room in 2:1 pixel isometric projection, two walls and the floor visible, floating on a plain solid background: [ROOM THEME AND DESCRIPTION]. Densely and cozily furnished with small props (plants, books, string lights, rugs, windows with a sky view, small pets). Every object has the same pixel scale and outline treatment.
@@ -57,7 +63,7 @@ If the user asks for several poses instead of a strict turnaround, replace the s
 
 Single furniture piece: `A single isometric pixel-art furniture piece: [DESCRIPTION], on a plain solid light background, centered.`
 
-### C. Item icons (ratio 1:1)
+### D. Item icons (ratio 1:1)
 
 ```
 [STYLE PREFIX] A single small pixel-art item icon: [ITEM DESCRIPTION]. Glossy cute rendering with one bright highlight, warm saturated colors, slightly chubby simplified shape, sitting on a small plate or wooden board where natural. Centered on a plain solid white background with generous margin.
@@ -65,14 +71,14 @@ Single furniture piece: `A single isometric pixel-art furniture piece: [DESCRIPT
 
 ## Consistency anchor blocks
 
-Ask the user which level applies before every batch.
+Use the level implied by the request. Ask only if it materially changes the result and cannot be inferred.
 
 **Must match**
 
 ```
 Keep the exact same pixel size, outline color, palette, shading style and lighting direction as the reference image. Every image in this set must look like it came from the same game and the same artist.
 ```
-Generate image 01 first, get approval, then pass it as `--reference` for the rest.
+When the user wants strict character identity across generated images, generate image 01 first and use the approved result as `--reference` for the rest.
 
 **Partly consistent**
 
@@ -91,9 +97,9 @@ No text, no letters, no numbers, no labels, no watermark, no signature, no UI fr
 ## Prompt rules
 
 1. Describe the scene in full sentences; narrative description works better than keyword piles.
-2. Always state background, ratio and the pixel grid explicitly.
-3. Use the same style prefix for every image in a batch.
-4. Characters and pets: one subject per image, centered, with margin (clean sprites for game asset use).
-5. Rooms: name the theme and 4-6 signature props so the room reads clearly.
-6. Reference mode: say what to keep (pose, subject) and what to change, and always restate the style prefix so the output converts to the Pikatang look.
-7. Pikatang pixel density is a style target; the model approximates it, so judge by grid cleanliness and palette, not exact pixel counts.
+2. State background, composition, ratio, and visible pixel scale where relevant.
+3. Reuse the style prefix across a coordinated set.
+4. Characters and pets: center a single subject with margin unless the user requested a sheet or scene.
+5. Rooms: name the theme, camera view, and a few signature furnishings so the room reads clearly.
+6. Reference mode: state what to preserve and what to change, and restate the style prefix so the result converts to the Pikatang look.
+7. Pikatang pixel density is a style target; the model approximates it, so judge by grid clarity and palette, not exact pixel counts.
