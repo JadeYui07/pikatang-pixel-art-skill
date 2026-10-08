@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pikatang Pixel Art"
+  short_description: "Batch-generate Pikatang-style pixel art: characters, pets, isometric rooms, icons"
+  default_prompt: "用皮卡堂像素风格帮我生成一批图"
